@@ -1,17 +1,13 @@
 "use client";
-import {
-  GoAAppFooter,
-  GoAAppFooterMetaSection,
-  GoAAppFooterNavSection,
-  GoAAppHeader,
-  GoAHeroBanner,
-  GoAMicrositeHeader,
-  GoAOneColumnLayout,
-} from "@abgov/react-components";
-import { MAX_CONTENT_WIDTH } from "./layout";
-import Link from "next/link";
 
-export default function Home() {
+import dynamic from 'next/dynamic';
+const GoAHeroBanner = dynamic(
+  () => import("@abgov/react-components").then((module) => module.GoAHeroBanner),
+  {
+    ssr: false,
+  }
+);
+const Home = () => {
   return (
     <GoAHeroBanner
       heading="Design System Demos"
@@ -19,3 +15,10 @@ export default function Home() {
     </GoAHeroBanner>
   );
 }
+
+const HomeComponent = dynamic(() => Promise.resolve(Home), {
+  ssr: false,
+})
+
+export default HomeComponent;
+

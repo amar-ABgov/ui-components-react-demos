@@ -1,6 +1,7 @@
-import Link from 'next/link'
+import Link from 'next/link';
+import dynamic from 'next/dynamic'
 
-export default function FourOhFour() {
+const FourOhFour = () => {
   return <>
     <h1>404 - Page Nots Found</h1>
     <Link href="/">
@@ -8,3 +9,9 @@ export default function FourOhFour() {
     </Link>
   </>
 }
+
+const FourOhFourComponent = dynamic(() => Promise.resolve(FourOhFour), {
+  ssr: false,
+})
+
+export default FourOhFourComponent;

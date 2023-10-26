@@ -1,20 +1,47 @@
 "use client";
 import { FILE_SERVICE_URL, FileUploader } from "@/service/file-upload";
-import {
-  GoACircularProgress,
-  GoAFileUploadCard,
-  GoAFileUploadInput,
-  GoAIconButton,
-  GoATable,
-} from "@abgov/react-components";
-import { useEffect, useState, useRef } from "react";
-import LoginStatus from "../components/login-status";
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import axios from "axios";
 import uuid4 from "uuid4";
 import fileDownload from "js-file-download";
+import dynamic from 'next/dynamic';
 
-export default function FileUpload() {
+
+const LoginStatus = dynamic(() => import("../components/login-status"), { ssr: false });
+
+const GoACircularProgress = dynamic(
+  () => import("@abgov/react-components").then((module) => module.GoACircularProgress),
+  {
+    ssr: false,
+  }
+);
+const GoAFileUploadCard = dynamic(
+  () => import("@abgov/react-components").then((module) => module.GoAFileUploadCard),
+  {
+    ssr: false,
+  }
+);
+const GoAFileUploadInput = dynamic(
+  () => import("@abgov/react-components").then((module) => module.GoAFileUploadInput),
+  {
+    ssr: false,
+  }
+);
+const GoAIconButton = dynamic(
+  () => import("@abgov/react-components").then((module) => module.GoAIconButton),
+  {
+    ssr: false,
+  }
+);
+const GoATable = dynamic(
+  () => import("@abgov/react-components").then((module) => module.GoATable),
+  {
+    ssr: false,
+  }
+);
+
+const FileUpload = () => {
   const { data: session } = useSession();
   const [files, setFiles] = useState([]);
   const [uploads, setUploads] = useState([]);
@@ -126,3 +153,9 @@ export default function FileUpload() {
     </>
   );
 }
+
+const FileUploadComponent = dynamic(() => Promise.resolve(FileUpload), {
+  ssr: false,
+})
+
+export default FileUploadComponent;
